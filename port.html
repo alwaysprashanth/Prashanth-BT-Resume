@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prashanth B T - Portfolio</title>
+  <style>
+    /* MATRIX BACKGROUND */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #eee;
+      background: black;
+      overflow-x: hidden;
+    }
+    canvas#matrix {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      background: black;
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 20px rgba(0,255,128,0.6);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 20px;
+      max-width: 1000px;
+      margin: 30px auto;
+    }
+    header img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #00ff88;
+      box-shadow: 0 0 20px #00ff88;
+      animation: glowPulse 2s infinite alternate;
+      background: black;
+    }
+    @keyframes glowPulse { from { box-shadow: 0 0 15px #00ff88; } to { box-shadow: 0 0 35px #00ffcc; } }
+    .header-info { flex: 1; margin-left: 20px; }
+    .header-info h1 { margin: 0; font-size: 32px; color: #00ffcc; }
+    .header-info p { margin: 5px 0; color: #aaa; }
+    .header-info a { color: #00ff88; text-decoration: none; }
+    .header-info a:hover { text-decoration: underline; }
+
+    /* TRYHACKME BADGE */
+    .thm-badge iframe { border: none; width: 350px; height: 120px; margin-top: 20px; }
+
+    /* SECTIONS */
+    section {
+      max-width: 900px;
+      margin: 30px auto;
+      background: rgba(0,0,0,0.6);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0,255,200,0.2);
+      transform: translateY(50px) rotateX(10deg);
+      opacity: 0;
+      animation: sectionIn 1s ease forwards;
+    }
+    section:nth-of-type(1) { animation-delay: 0.5s; }
+    section:nth-of-type(2) { animation-delay: 0.8s; }
+    section:nth-of-type(3) { animation-delay: 1.1s; }
+    section:nth-of-type(4) { animation-delay: 1.4s; }
+    section:nth-of-type(5) { animation-delay: 1.7s; }
+    section:nth-of-type(6) { animation-delay: 2.0s; }
+    section:nth-of-type(7) { animation-delay: 2.3s; }
+    @keyframes sectionIn { to { transform: translateY(0) rotateX(0deg); opacity: 1; } }
+    section h2 { font-size: 24px; margin-bottom: 12px; color: #00ff88; }
+    ul { margin: 10px 0; padding-left: 20px; }
+    li { margin-bottom: 6px; }
+
+    /* FORM */
+    form { display: flex; flex-direction: column; gap: 12px; }
+    input, textarea {
+      padding: 12px; border-radius: 8px; border: 1px solid #333;
+      font-size: 15px; background: rgba(0,0,0,0.8); color: #eee;
+    }
+    input:focus, textarea:focus {
+      border-color: #00ffcc; outline: none; box-shadow: 0 0 10px #00ffcc;
+    }
+    button {
+      background: #00ff88; color: black; border: none; padding: 14px;
+      font-size: 16px; border-radius: 8px; cursor: pointer;
+      position: relative; overflow: hidden; transition: transform 0.2s;
+    }
+    button:hover { transform: scale(1.05); }
+    button:active::after {
+      content: ""; position: absolute; width: 200%; height: 200%;
+      top: -50%; left: -50%; background: rgba(255,255,255,0.4);
+      border-radius: 50%; animation: ripple 0.6s ease;
+    }
+    @keyframes ripple { from { transform: scale(0); opacity: 1; } to { transform: scale(1); opacity: 0; } }
+
+    /* RESUME DOWNLOAD BUTTON */
+    .resume-download { margin-top: 30px; text-align: center; }
+    .hacker-btn {
+      display: inline-block; padding: 15px 40px;
+      font-family: 'Courier New', monospace; font-size: 18px; font-weight: bold;
+      color: lime; background-color: black; border: 2px solid lime;
+      border-radius: 8px; text-decoration: none; box-shadow: 0 0 10px lime;
+      position: relative; overflow: hidden; transition: all 0.3s ease-in-out;
+    }
+    .hacker-btn:hover { color: black; background-color: lime; box-shadow: 0 0 15px lime, 0 0 30px lime; }
+    .hacker-btn::before, .hacker-btn::after {
+      content: ''; position: absolute; top: 0; left: -75%;
+      width: 50%; height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(0,255,0,0.4), transparent);
+      transform: skewX(-25deg);
+    }
+    .hacker-btn::before { animation: slide 2s infinite; }
+    .hacker-btn::after { animation: slide 2s infinite 1s; }
+    @keyframes slide { 0% { left:-75%; } 50% { left:125%; } 100% { left:-75%; } }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 15px; background: rgba(0,0,0,0.7);
+      border-top: 2px solid #00ff88; color: #aaa; margin-top: 40px; }
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <img src="profile.jpg" alt="Prashanth B T">
+    <div class="header-info">
+      <h1>Prashanth B T</h1>
+      <p>IT Professional → Cybersecurity Learner</p>
+      <p>
+        📧 <a href="mailto:prashanthbtp7338@gmail.com">Email</a> |
+        🔗 <a href="https://linkedin.com/in/alwaysprashanth" target="_blank">LinkedIn</a> |
+        📍 Bengaluru, India
+      </p>
+    </div>
+    <div class="thm-badge">
+      <iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=5635359"></iframe>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section>
+    <h2>🚀 About Me</h2>
+    <p>Motivated IT professional with strong foundations in networking, system administration, and cybersecurity.</p>
+  </section>
+
+  <!-- EDUCATION -->
+  <section>
+    <h2>🎓 Education</h2>
+    <ul>
+      <li><b>MSc IT</b>, Garden City College, Bengaluru — Nov 2022– Aug 2024</li>
+      <li><b>BSc PCM</b>, Sri Adhichunchanagiri College — Jun 2019– Sep 2022</li>
+      <li><b>PUC Science</b>, BGS Independent PU College — Jun 2018– Mar 2019</li>
+      <li><b>10th Standard</b>, Govt Junior College — 2016–2017</li>
+    </ul>
+  </section>
+
+  <!-- TECH SKILLS -->
+  <section>
+    <h2>🛠️ Technical Skills</h2>
+    <ul>
+      <li>Networking (TCP/IP, OSI)</li>
+      <li>Windows & Linux Fundamentals</li>
+      <li>Virtual Machines, Firewalls</li>
+      <li>Cybersecurity Labs & CTFs</li>
+      <li>Nmap, Wireshark Basics</li>
+    </ul>
+    <h2>🤝 Soft Skills</h2>
+    <ul>
+      <li>Problem-Solving & Critical Thinking</li>
+      <li>Teamwork & Collaboration</li>
+      <li>Continuous Learning</li>
+      <li>Adaptability</li>
+    </ul>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section>
+    <h2>💼 Experience</h2>
+    <h3>Process Associate – Cognizant (Jun 2024 – Sep 2024)</h3>
+    <ul>
+      <li>Supported airline client operations with booking queries & rescheduling.</li>
+      <li>Ensured SLA compliance, accuracy, and documentation.</li>
+      <li>Collaborated with teams to troubleshoot and resolve issues.</li>
+    </ul>
+  </section>
+
+  <!-- PROJECTS & LEARNING -->
+  <section>
+    <h2>🔐 Cybersecurity Projects & Learning</h2>
+    <h3>Learner – TryHackMe (Mar 2025 – Present)</h3>
+    <ul>
+      <li>Hands-on training via TryHackMe, solving CTF challenges.</li>
+      <li>Exposure to network security, ethical hacking, penetration testing.</li>
+      <li>Worked with Nmap, Wireshark, vulnerability scanners.</li>
+    </ul>
+  </section>
+
+  <!-- VOLUNTEERING -->
+  <section>
+    <h2>🌍 Volunteering & Leadership</h2>
+    <p>NSS Volunteer & Team Leader (2019–2022). Recognized as best volunteer among 100+ participants. Led 25-member team in campus drives and community outreach.</p>
+  </section>
+
+  <!-- CONTACT FORM -->
+  <section>
+    <h2>📩 Contact Me</h2>
+    <form action="https://formspree.io/f/mnnbllaa" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="tel" name="phone" placeholder="Your Mobile Number" pattern="[0-9]{10}" maxlength="10" required />
+      <input type="email" name="_replyto" placeholder="Your Email" required />
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+
+    <!-- RESUME DOWNLOAD BUTTON -->
+    <div class="resume-download">
+      <a href="Prashanth-BT-Resume.pdf" download class="hacker-btn">Download Resume</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Prashanth B T | Portfolio</p>
+  </footer>
+
+  <!-- MATRIX EFFECT -->
+  <canvas id="matrix"></canvas>
+  <script>
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    const letters = "01";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#00ff88";
+      ctx.font = fontSize + "px monospace";
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    setInterval(draw, 40);
+  </script>
+</body>
+</html>
